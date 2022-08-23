@@ -1,9 +1,10 @@
+import { keys, map } from 'ramda';
 import { useFormContext } from 'react-hook-form';
 import { Select } from '@chakra-ui/react';
 
 import Field from 'components/atoms/Field';
 
-export default function SelectField({ name, label, options = [], ...props }) {
+export default function SelectField({ name, label, options = {}, ...props }) {
   const { register } = useFormContext();
 
   return (
@@ -12,14 +13,14 @@ export default function SelectField({ name, label, options = [], ...props }) {
         {...props}
         {...register(name)}
       >
-        {options.map((option) => (
+        {map((key) => (
           <option
-            key={option.value}
-            value={option.value}
+            key={key}
+            value={key}
           >
-            {option.label}
+            {options[key]}
           </option>
-        ))}
+        ), keys(options))}
       </Select>
     </Field>
   );

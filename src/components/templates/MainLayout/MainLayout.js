@@ -8,7 +8,7 @@ export default function Home({ children }) {
         pb={10}
       >
         <Heading as="h1">
-          Tax Calculator
+          Payroll Calculator
         </Heading>
       </Center>
       {children}

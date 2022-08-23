@@ -1,26 +1,26 @@
+import { head, keys, map } from 'ramda';
 import { useFormContext } from 'react-hook-form';
 import { RadioGroup, Stack, Radio } from '@chakra-ui/react';
 
 import Field from 'components/atoms/Field';
 
-export default function RadioField({ name, label, options = [], ...props }) {
+export default function RadioField({ name, label, options = {}, ...props }) {
   const { register } = useFormContext();
-  const [{ value: defaultValue }] = options;
 
   return (
     <Field label={label}>
-      <RadioGroup defaultValue={defaultValue}>
+      <RadioGroup defaultValue={head(keys(options))}>
         <Stack>
-          {options.map((option) => (
+          {map((key) => (
             <Radio
-              key={option.value}
-              value={option.value}
+              key={key}
+              value={key}
               {...props}
               {...register(name)}
             >
-              {option.label}
+              {options[key]}
             </Radio>
-          ))}
+          ), keys(options))}
         </Stack>
       </RadioGroup>
     </Field>
