@@ -1,5 +1,10 @@
+import TaxCalculator from 'components/organisms/TaxCalculator';
+import MainLayout from 'components/templates/MainLayout';
+
 export default function Home() {
   return (
-    <h1>Home page</h1>
+    <MainLayout>
+      <TaxCalculator />
+    </MainLayout>
   );
 };
