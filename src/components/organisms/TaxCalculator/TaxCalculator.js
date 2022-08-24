@@ -21,6 +21,7 @@ export default function TaxCalculator({ onSubmit }) {
           label="Experience"
           required
           min={0}
+          data-testid="experience-field"
         />
         <RadioField
           name="profession"
@@ -31,15 +32,18 @@ export default function TaxCalculator({ onSubmit }) {
           name="location"
           label="Location/City"
           options={LOCATIONS}
+          data-testid="location-field"
         />
         <SelectField
           name="year"
           label="Income year"
           options={YEARS}
+          data-testid="year-field"
         />
         <Button
           type="submit"
           colorScheme="teal"
+          data-testid="submit-button"
         >
           Calculate Salary
         </Button>

@@ -49,16 +49,27 @@ const getHighIncomeTax = (salary, percentage, from, to) => ifElse(
   always(0),
 )(salary);
 
-export default function getNetSalary({ experience, profession, location, year }) {
+const getNetSalary = ({ experience, profession, location, year }) => {
   const basicSalary = prop(profession, BASIC_SALARY_BY_PROFESSION);
   const salaryRise = getSalaryRise(basicSalary, Number(experience));
   const grossSalary = add(basicSalary, salaryRise);
   const locationTax = getLocationTax(grossSalary, year, location);
 
   const highIncomeTax = add(
-    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH),
-    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.EXTRA_HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH),
+    getHighIncomeTax(
+      grossSalary,
+      HIGH_INCOME_TAX_RATES.HIGH,
+      HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.HIGH,
+      HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH,
+    ),
+    getHighIncomeTax(
+      grossSalary,
+      HIGH_INCOME_TAX_RATES.EXTRA_HIGH,
+      HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH,
+    ),
   );
 
   return grossSalary - locationTax - highIncomeTax;
 }
+
+export default getNetSalary;

@@ -4,7 +4,10 @@ import formatCurrency from 'utils/format/formatCurrency';
 
 export default function SalaryStats({ salary }) {
   return (
-    <Stat mt={5}>
+    <Stat
+      mt={5}
+      data-testid="stats"
+    >
       <StatLabel>
         Salary After Tax
       </StatLabel>

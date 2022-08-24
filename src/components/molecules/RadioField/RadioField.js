@@ -4,7 +4,7 @@ import { RadioGroup, Stack, Radio } from '@chakra-ui/react';
 
 import Field from 'components/atoms/Field';
 
-export default function RadioField({ name, label, options = {}, ...props }) {
+export default function RadioField({ name, label, options, ...props }) {
   const { register } = useFormContext();
 
   return (

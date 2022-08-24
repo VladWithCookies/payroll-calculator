@@ -17,7 +17,10 @@ export default function NumberField({ name, label, min, required, ...props }) {
       label={label}
       required={required}
     >
-      <NumberInput min={min}>
+      <NumberInput
+        min={min}
+        clampValueOnBlur
+      >
         <NumberInputField
           {...props}
           {...register(name, { required })}

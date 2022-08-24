@@ -4,7 +4,7 @@ import { Select } from '@chakra-ui/react';
 
 import Field from 'components/atoms/Field';
 
-export default function SelectField({ name, label, options = {}, ...props }) {
+export default function SelectField({ name, label, options, ...props }) {
   const { register } = useFormContext();
 
   return (
