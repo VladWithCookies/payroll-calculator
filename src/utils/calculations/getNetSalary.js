@@ -4,7 +4,7 @@ import {
   keys,
   findLast,
   gte,
-  lte,
+  lt,
   add,
   multiply,
   path,
@@ -23,7 +23,7 @@ import {
   LOCATION_TAX_RATE_BY_YEAR,
   HIGH_INCOME_TAX_RATES,
   HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS,
-} from 'constants';
+} from 'constants/data';
 
 const getSalaryRise = (salary, experience) => pipe(
   keys,
@@ -39,9 +39,9 @@ const getLocationTax = (salary, year, location) => pipe(
 )(salary);
 
 const getHighIncomeTax = (salary, percentage, from, to) => ifElse(
-  lte(from),
+  lt(from),
   pipe(
-    when(always(to), min([to, salary])),
+    when(always(to), min(to)),
     subtract(from),
     negate,
     multiply(percentage),
@@ -51,17 +51,14 @@ const getHighIncomeTax = (salary, percentage, from, to) => ifElse(
 
 export default function getNetSalary({ experience, profession, location, year }) {
   const basicSalary = prop(profession, BASIC_SALARY_BY_PROFESSION);
-  const salaryRise = getSalaryRise(basicSalary, experience);
+  const salaryRise = getSalaryRise(basicSalary, Number(experience));
   const grossSalary = add(basicSalary, salaryRise);
   const locationTax = getLocationTax(grossSalary, year, location);
 
   const highIncomeTax = add(
-    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA),
-    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH),
+    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH),
+    getHighIncomeTax(grossSalary, HIGH_INCOME_TAX_RATES.EXTRA_HIGH, HIGH_INCOME_TAX_SALARY_LOWER_BOUNDS.EXTRA_HIGH),
   );
 
-  return pipe(
-    subtract(locationTax),
-    subtract(highIncomeTax),
-  )(grossSalary);
+  return grossSalary - locationTax - highIncomeTax;
 }

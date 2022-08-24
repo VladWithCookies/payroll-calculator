@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Button, Stack } from '@chakra-ui/react';
 
-import { PROFESSIONS, LOCATIONS, YEARS } from 'constants';
+import { PROFESSIONS, LOCATIONS, YEARS } from 'constants/data';
 import Form from 'components/molecules/Form';
 import NumberField from 'components/molecules/NumberField';
 import RadioField from 'components/molecules/RadioField';
